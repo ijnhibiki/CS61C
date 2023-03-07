@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/hibiki/cs61c/sp23-s303/lab01/exercise1",
+      "program": "/Users/hibiki/cs61c/sp23-s303/lab01/exercise1/build/Debug/outDebug"
+    }
+  ]
+}
