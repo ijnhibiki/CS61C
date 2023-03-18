@@ -80,6 +80,12 @@ void free_state(game_state_t* state) {
 /* Task 3 */
 void print_board(game_state_t* state, FILE* fp) {
   // TODO: Implement this function.
+    for (int i = 0; i < 18; i++) {
+        for (int j = 0; j < 20; j ++) {
+            fprintf(fp,"%c",state->board[i][j]);
+        }
+        fprintf(fp,"\n");
+    }
   return;
 }
 
