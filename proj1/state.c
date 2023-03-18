@@ -69,6 +69,9 @@ game_state_t* create_default_state() {
 void free_state(game_state_t* state) {
   // TODO: Implement this function.
     free(state->snakes);
+    for (int i = 0; i < 18; i ++) {
+        free(state->board[i]);
+    }
     free(state->board);
     free(state);
   return;
