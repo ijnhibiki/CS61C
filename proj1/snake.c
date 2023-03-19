@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     if (state == NULL) {
         return -1;
     } else {
-        initialize_snakes(state);
+        state = initialize_snakes(state);
     }
   } else {
     // TODO: Create default state
