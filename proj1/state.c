@@ -317,7 +317,7 @@ game_state_t* load_board(char* filename) {
   FILE *fp;
   fp = fopen(filename, "r");
   if (fp == NULL) {
-      exit(EXIT_FAILURE);
+      return NULL;
   }
   char c;
   unsigned int row_counter = 0;
@@ -325,10 +325,10 @@ game_state_t* load_board(char* filename) {
   char *code;
   code = malloc(1000);
   while ((c = (char) fgetc(fp)) != EOF) {
-      col_counter = 0;
       if (c != '\n') {
           code[col_counter++] = c;
       } else {
+          col_counter ++;
           code[col_counter] = '\n';
           new_state->board = realloc(new_state->board, (1 + row_counter) * (1 + col_counter) * sizeof(char));
           new_state->board[row_counter] = malloc((1 + col_counter) * sizeof(char));
@@ -336,6 +336,7 @@ game_state_t* load_board(char* filename) {
           row_counter ++;
           free(code);
           code = malloc(1000);
+          col_counter = 0;
       }
   }
   new_state->num_rows = row_counter;
@@ -353,11 +354,41 @@ game_state_t* load_board(char* filename) {
 */
 static void find_head(game_state_t* state, unsigned int snum) {
   // TODO: Implement this function.
+  unsigned int current_row = state->snakes[snum].tail_row;
+  unsigned int current_col = state->snakes[snum].tail_col;
+  while (!is_head(get_board_at(state, current_row, current_col))) {
+      current_row = get_next_row(current_row, get_board_at(state, current_row, current_col));
+      current_col = get_next_col(current_col, get_board_at(state, current_row, current_col));
+  }
+  state->snakes[snum].head_row = current_row;
+  state->snakes[snum].head_col = current_col;
   return;
 }
 
 /* Task 6.2 */
 game_state_t* initialize_snakes(game_state_t* state) {
   // TODO: Implement this function.
-  return NULL;
+  unsigned int snake_counter = 0;
+    unsigned int col_counter = 0;
+    state->snakes = malloc(sizeof(snake_t));
+    if (state->snakes == NULL) {
+        fprintf(stderr, "Out of memory.\n");
+        exit(1);
+    }
+  for (unsigned int i = 0; i < state->num_rows; i++) {
+      if (state->board[i][col_counter] != '\n') {
+          if (is_tail(state->board[i][col_counter])) {
+              state->snakes[snake_counter].tail_row = i;
+              state->snakes[snake_counter].tail_col = col_counter;
+              find_head(state, snake_counter);
+              state->snakes[snake_counter].live = true;
+              snake_counter++;
+          }
+          col_counter++;
+      } else {
+          col_counter = 0;
+      }
+  }
+  state->num_snakes = snake_counter;
+  return state;
 }

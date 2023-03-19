@@ -53,6 +53,7 @@
   <component name="ChangeListManager">
     <list default="true" id="db4c75e3-707e-4aac-b836-a6798e9067d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snake.c" beforeDir="false" afterPath="$PROJECT_DIR$/snake.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/state.c" beforeDir="false" afterPath="$PROJECT_DIR$/state.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unit-test-out.snk" beforeDir="false" afterPath="$PROJECT_DIR$/unit-test-out.snk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unit-tests" beforeDir="false" afterPath="$PROJECT_DIR$/unit-tests" afterDir="false" />
@@ -131,7 +132,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Makefile Application.01-simple">
+  <component name="RunManager" selected="C/C++ File.snake.c">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
@@ -312,7 +313,14 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
+    <configuration name="snake.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1" TARGET_NAME="snake.c" CONFIG_NAME="snake.c">
+      <option name="sourceFile" value="snake.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="C/C++ File.snake.c" />
       <item itemvalue="Makefile Application.01-simple" />
       <item itemvalue="Makefile Application.02-direction" />
       <item itemvalue="Makefile Application.03-tail" />
@@ -349,6 +357,11 @@
       <item itemvalue="Makefile Application.snake" />
       <item itemvalue="Makefile Application.unit-tests" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="C/C++ File.snake.c" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -358,7 +371,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679179765144</updated>
-      <workItem from="1679179790038" duration="9189000" />
+      <workItem from="1679179790038" duration="12300000" />
     </task>
     <servers />
   </component>
