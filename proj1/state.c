@@ -320,15 +320,15 @@ game_state_t* load_board(char* filename) {
   if (fp == NULL) {
       return NULL;
   }
-  char c;
+  int c;
   unsigned int row_counter = 0;
   unsigned int col_counter = 0;
   unsigned int num_block = 0;
   char *code;
   code = malloc(1000);
-  while ((c = (char) getc(fp)) != EOF) {
+  while ((c = getc(fp)) != EOF) {
       if (c != '\n') {
-          code[col_counter++] = c;
+          code[col_counter++] = (char) c;
           num_block++;
       } else {
           col_counter ++;
