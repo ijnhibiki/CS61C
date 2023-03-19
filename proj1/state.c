@@ -34,7 +34,7 @@ game_state_t* create_default_state() {
   new_state->num_snakes = 1;
     new_state->board = malloc(360 * sizeof(char));
     for (int i = 0; i < 18; i ++) {
-        new_state->board[i] = malloc(20*sizeof(char));
+        new_state->board[i] = malloc(21*sizeof(char));
     }
     for (int i = 0; i < 18; i++) {
         for (int j = 0; j < 20; j ++) {
@@ -44,6 +44,7 @@ game_state_t* create_default_state() {
                 new_state->board[i][j] = ' ';
             }
         }
+        new_state->board[i][20] = '\n';
     }
     new_state->board[2][9] = '*';
 
