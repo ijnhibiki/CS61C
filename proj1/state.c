@@ -326,7 +326,7 @@ game_state_t* load_board(char* filename) {
   unsigned int num_block = 0;
   char *code;
   code = malloc(1000);
-  while ((c = (char) fgetc(fp)) != EOF) {
+  while ((c = (char) getc(fp)) != EOF) {
       if (c != '\n') {
           code[col_counter++] = c;
           num_block++;
@@ -335,7 +335,7 @@ game_state_t* load_board(char* filename) {
           code[col_counter] = '\0';
           num_block++;
           new_state->board = realloc(new_state->board, num_block * sizeof(char));
-          new_state->board[row_counter] = malloc((1 + col_counter) * sizeof(char));
+          new_state->board[row_counter] = malloc(col_counter * sizeof(char));
           strcpy(new_state->board[row_counter], code);
           row_counter++;
           free(code);
@@ -343,6 +343,7 @@ game_state_t* load_board(char* filename) {
           col_counter = 0;
       }
   }
+  fclose(fp);
   new_state->num_rows = row_counter;
 
   return new_state;
