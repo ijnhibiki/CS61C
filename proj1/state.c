@@ -32,7 +32,7 @@ game_state_t* create_default_state() {
   }
   new_state->num_rows = 18;
   new_state->num_snakes = 1;
-    new_state->board = malloc(360 * sizeof(char));
+    new_state->board = malloc(378 * sizeof(char));
     for (int i = 0; i < 18; i ++) {
         new_state->board[i] = malloc(21*sizeof(char));
     }
@@ -44,7 +44,7 @@ game_state_t* create_default_state() {
                 new_state->board[i][j] = ' ';
             }
         }
-        new_state->board[i][20] = '\n';
+        new_state->board[i][20] = '\0';
     }
     new_state->board[2][9] = '*';
 
@@ -332,7 +332,7 @@ game_state_t* load_board(char* filename) {
           num_block++;
       } else {
           col_counter ++;
-          code[col_counter] = '\n';
+          code[col_counter] = '\0';
           num_block++;
           new_state->board = realloc(new_state->board, num_block * sizeof(char));
           new_state->board[row_counter] = malloc((1 + col_counter) * sizeof(char));
