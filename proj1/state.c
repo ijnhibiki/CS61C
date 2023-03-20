@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include "snake_utils.h"
 
@@ -32,7 +33,7 @@ game_state_t* create_default_state() {
   }
   new_state->num_rows = 18;
   new_state->num_snakes = 1;
-    new_state->board = malloc(378 * sizeof(char));
+    new_state->board = malloc(18 * sizeof(char *));
     for (int i = 0; i < 18; i ++) {
         new_state->board[i] = malloc(21*sizeof(char));
     }
@@ -335,7 +336,7 @@ game_state_t* load_board(char* filename) {
       row_counter++;
   }
   new_state->num_rows = row_counter;
-
+  fclose(fp);
   return new_state;
 }
 
@@ -384,8 +385,8 @@ game_state_t* initialize_snakes(game_state_t* state) {
           col_counter++;
       }
       col_counter = 0;
-
   }
   state->num_snakes = snake_counter;
+
   return state;
 }

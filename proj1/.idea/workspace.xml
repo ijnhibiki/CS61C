@@ -53,11 +53,33 @@
   <component name="ChangeListManager">
     <list default="true" id="db4c75e3-707e-4aac-b836-a6798e9067d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snake" beforeDir="false" afterPath="$PROJECT_DIR$/snake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interactive-snake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/snake" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/state.c" beforeDir="false" afterPath="$PROJECT_DIR$/state.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/01-simple-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/02-direction-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/03-tail-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/04-food-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/05-wall-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/06-small-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/07-medium-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/08-multisnake-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/09-everything-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/10-filed-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/10-filled-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/11-manyclose-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/12-corner-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/13-sus-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/14-orochi-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/15-hydra-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/16-huge-out.snk" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/17-wide-out.snk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit-test-out.snk" beforeDir="false" afterPath="$PROJECT_DIR$/unit-test-out.snk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit-tests" beforeDir="false" afterPath="$PROJECT_DIR$/unit-tests" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/18-tall-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/19-101-127-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/20-long-line-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/21-bigL-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit-test-out.snk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit-tests" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +96,18 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="10f9fb93-88ad-424f-a9bc-7303ab27706f" />
+        <option name="url" value="git@github.com:ijnhibiki/sp23-s303.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MakefileLocalSettings">
     <option name="availableProjects">
@@ -309,11 +343,6 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="snake.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1" TARGET_NAME="snake.c" CONFIG_NAME="snake.c">
       <option name="sourceFile" value="snake.c" />
       <method v="2">
@@ -373,7 +402,8 @@
       <option name="presentableId" value="Default" />
       <updated>1679179765144</updated>
       <workItem from="1679179790038" duration="23181000" />
-      <workItem from="1679277020229" duration="1525000" />
+      <workItem from="1679277020229" duration="4961000" />
+      <workItem from="1679337616951" duration="22000" />
     </task>
     <servers />
   </component>
