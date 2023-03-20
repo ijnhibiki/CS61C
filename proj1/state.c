@@ -332,7 +332,7 @@ game_state_t* load_board(char* filename) {
           num_block++;
       } else {
           col_counter ++;
-          //code[col_counter] = '\0';
+          code[col_counter] = '\0';
           num_block++;
           new_state->board = realloc(new_state->board, num_block * sizeof(char));
           new_state->board[row_counter] = malloc(col_counter * sizeof(char));
