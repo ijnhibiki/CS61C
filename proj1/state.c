@@ -376,6 +376,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
   for (unsigned int i = 0; i < state->num_rows; i++) {
       while (state->board[i][col_counter] != '\0') {
           if (is_tail(state->board[i][col_counter])) {
+              state->snakes = realloc(state->snakes, (snake_counter + 1) * sizeof(snake_t));
               state->snakes[snake_counter].tail_row = i;
               state->snakes[snake_counter].tail_col = col_counter;
               find_head(state, snake_counter);
