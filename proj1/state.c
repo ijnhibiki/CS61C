@@ -337,6 +337,7 @@ game_state_t* load_board(char* filename) {
   }
   new_state->num_rows = row_counter;
   fclose(fp);
+  line = NULL;
   return new_state;
 }
 
