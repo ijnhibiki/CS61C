@@ -29,6 +29,7 @@ game_state_t* create_default_state() {
   new_state = malloc(sizeof(game_state_t));
   if (new_state == NULL) {
       fprintf(stderr, "Out of memory.\n");
+      free(new_state);
       exit(1);
   }
   new_state->num_rows = 18;
@@ -62,8 +63,6 @@ game_state_t* create_default_state() {
     new_state->board[2][2] = 'd';
     new_state->board[2][3] = '>';
     new_state->board[2][4] = 'D';
-
-
   return new_state;
 }
 
@@ -313,6 +312,7 @@ game_state_t* load_board(char* filename) {
   new_state = malloc(sizeof(game_state_t));
   if (new_state == NULL) {
       fprintf(stderr, "Out of memory.\n");
+      free(new_state);
       exit(1);
   }
   FILE* fp;
