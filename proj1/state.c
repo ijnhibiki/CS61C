@@ -70,7 +70,7 @@ game_state_t* create_default_state() {
 void free_state(game_state_t* state) {
   // TODO: Implement this function.
     free(state->snakes);
-    for (int i = 0; i < 18; i ++) {
+    for (int i = 0; i < state->num_rows; i ++) {
         free(state->board[i]);
     }
     free(state->board);
@@ -363,8 +363,10 @@ static void find_head(game_state_t* state, unsigned int snum) {
   unsigned int current_row = state->snakes[snum].tail_row;
   unsigned int current_col = state->snakes[snum].tail_col;
   while (!is_head(get_board_at(state, current_row, current_col))) {
-      current_row = get_next_row(current_row, get_board_at(state, current_row, current_col));
-      current_col = get_next_col(current_col, get_board_at(state, current_row, current_col));
+      unsigned int temp_row = get_next_row(current_row, get_board_at(state, current_row, current_col));
+      unsigned int temp_col = get_next_col(current_col, get_board_at(state, current_row, current_col));
+      current_row = temp_row;
+      current_col = temp_col;
   }
   state->snakes[snum].head_row = current_row;
   state->snakes[snum].head_col = current_col;
@@ -382,7 +384,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
         exit(1);
     }
   for (unsigned int i = 0; i < state->num_rows; i++) {
-      if (state->board[i][col_counter] != '\n') {
+      while (state->board[i][col_counter] != '\0') {
           if (is_tail(state->board[i][col_counter])) {
               state->snakes[snake_counter].tail_row = i;
               state->snakes[snake_counter].tail_col = col_counter;
@@ -391,9 +393,9 @@ game_state_t* initialize_snakes(game_state_t* state) {
               snake_counter++;
           }
           col_counter++;
-      } else {
-          col_counter = 0;
       }
+      col_counter = 0;
+
   }
   state->num_snakes = snake_counter;
   return state;
