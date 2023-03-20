@@ -324,7 +324,7 @@ game_state_t* load_board(char* filename) {
       return NULL;
   }
   unsigned int row_counter = 0;
-  new_state->board = (char**) malloc( (row_counter + 1) * sizeof(char*));
+  new_state->board = (char**) malloc(sizeof(char*));
   while ((nread = getline(&line, &len, fp)) != -1) {
       // Process the line
       if (line[nread - 1] == '\n') {
