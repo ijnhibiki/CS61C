@@ -308,44 +308,33 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 /* Task 5 */
 game_state_t* load_board(char* filename) {
   // TODO: Implement this function.
-    game_state_t *new_state;
-    new_state = malloc(sizeof(game_state_t));
-    if (new_state == NULL) {
-        fprintf(stderr, "Out of memory.\n");
-        exit(1);
-    }
-    new_state->board = malloc(0);
-  FILE *fp;
+  game_state_t *new_state;
+  new_state = malloc(sizeof(game_state_t));
+  if (new_state == NULL) {
+      fprintf(stderr, "Out of memory.\n");
+      exit(1);
+  }
+  FILE* fp;
+    char* line = NULL;
+    size_t len = 0;
+    ssize_t nread;
   fp = fopen(filename, "r");
   if (fp == NULL) {
       return NULL;
   }
-  int c;
   unsigned int row_counter = 0;
-  unsigned int col_counter = 0;
-  unsigned int num_block = 0;
-  char *code;
-  code = malloc(1000);
-  while ((c = getc(fp)) != EOF) {
-      if (c != '\n') {
-          code[col_counter++] = (char) c;
-          num_block++;
-      } else {
-          col_counter++;
-          code[col_counter] = '\0';
-          num_block++;
-          new_state->board = realloc(new_state->board, (num_block + col_counter)* sizeof(char));
-          new_state->board[row_counter] = malloc((col_counter + 1)* sizeof(char));
-          strcpy(new_state->board[row_counter], code);
-          row_counter++;
-          col_counter = 0;
-          free(code);
-          code = malloc(1000);
+  new_state->board = (char**) malloc( (row_counter + 1) * sizeof(char*));
+  while ((nread = getline(&line, &len, fp)) != -1) {
+      // Process the line
+      if (line[nread - 1] == '\n') {
+          line[nread - 1] = '\0';
       }
+      new_state->board = realloc(new_state->board, (row_counter + 1) * sizeof(char*));
+      new_state->board[row_counter] = malloc(len *sizeof(char));
+      strcpy(new_state->board[row_counter], line);
+      row_counter++;
   }
-  fclose(fp);
   new_state->num_rows = row_counter;
-  free(code);
 
   return new_state;
 }
@@ -377,12 +366,12 @@ static void find_head(game_state_t* state, unsigned int snum) {
 game_state_t* initialize_snakes(game_state_t* state) {
   // TODO: Implement this function.
   unsigned int snake_counter = 0;
-    unsigned int col_counter = 0;
-    state->snakes = malloc(sizeof(snake_t));
-    if (state->snakes == NULL) {
-        fprintf(stderr, "Out of memory.\n");
-        exit(1);
-    }
+  unsigned int col_counter = 0;
+  state->snakes = malloc(sizeof(snake_t));
+  if (state->snakes == NULL) {
+      fprintf(stderr, "Out of memory.\n");
+      exit(1);
+  }
   for (unsigned int i = 0; i < state->num_rows; i++) {
       while (state->board[i][col_counter] != '\0') {
           if (is_tail(state->board[i][col_counter])) {
