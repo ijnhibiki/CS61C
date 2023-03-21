@@ -5,6 +5,12 @@
 # a1 is the address of the "output" array (defined above).
 # The return value should be stored in a0
 f:
+    addi t0, a0, 3
+    slli t0, t0, 2
+    add t0, a1, t0
+    lw a0, 0(t0)
+    
+    
 
     # This is how you return from a function. You'll learn more about this later.
     # This should be the last line in your program.
