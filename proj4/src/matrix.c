@@ -81,14 +81,14 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
     // 6. Set the `ref_cnt` field to 1.
     // 7. Store the address of the allocated matrix struct at the location `mat` is pointing at.
     // 8. Return 0 upon success.
-    if (row <= 0 || col <= 0) {
+    if (rows <= 0 || cols <= 0) {
         return -1;
     }
     matrix *new_mat = malloc(sizeof(matrix));
     if (new_mat == NULL) {
         return -2;
     }
-    new_mat->data = malloc(sizeof(double) * (rows + 1) * (cols + 1));
+    new_mat->data = malloc(sizeof(double) * (int)(rows + 1) * (int)(cols + 1));
     if (new_mat == NULL) {
         return -2;
     }
