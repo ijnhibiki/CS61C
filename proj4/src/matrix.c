@@ -255,13 +255,16 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     // Task 1.6
+    double new_data[(mat1->rows) * (mat2->cols)];
     for (int i = 0; i < mat1->rows; i ++) {
         for (int j = 0; j < mat2->cols; j++) {
+            new_data[i * mat2->cols + j] = 0;
             for (int k = 0; k < mat1->cols; k++) {
-                result->data[i * mat2->cols + j] += mat1->data[i * mat1->cols + k] * mat2->data[j + k * mat2->cols];
+                new_data[i * mat2->cols + j] += mat1->data[i * mat1->cols + k] * mat2->data[j + k * mat2->cols];
             }
         }
     }
+    result->data = new_data;
     return 0;
 }
 
@@ -297,8 +300,8 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
             if (i == 0) {
                 mul_matrix(result, mat, mat);
             } else {
-                printf("%lf", get(result, 0, 0));
-                mul_matrix(result, mat, result);
+
+                mul_matrix(result, result, mat);
             }
         }
     }
