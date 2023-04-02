@@ -52,27 +52,18 @@ void v_add_optimized_chunks(double* x, double* y, double* z) {
     // Do NOT use the `for` directive here!
     #pragma omp parallel
     {
-		int tid = omp_get_thread_num();
-		int num_threads = omp_get_num_threads();
-		int chunk_size = ARRAY_SIZE / num_threads;
-		int start = tid * chunk_size;
-		int end = start + chunk_size;
-
-
-		for(int i = start; i < end; i++) {
-			z[i] = x[i] + y[i];
-		}
-
-		// tail case
-		if (tid == num_threads - 1 && end < ARRAY_SIZE)
-		{
-			// printf("Enter tail case.");
-			for (int i = end; i < ARRAY_SIZE; i++)
-			{
-				z[i] = x[i] + y[i];
-			}			
-		}		
-	}
+        int threads_num = omp_get_num_threads();
+        int chunc_size = ARRAY_SIZE / threads_num;
+        int id = omp_get_thread_num();
+        for (int i = id * chunc_size; i < (id + 1) * chunc_size; i ++) {
+            z[i] = x[i] + y[i];
+            if (i == (id + 1) * chunc_size - 1 && id == threads_num - 1) {
+                for (int i = (id + 1) * chunc_size; i < ARRAY_SIZE; i ++) {
+                    z[i] = x[i] + y[i];
+                }
+            }
+        }
+    }
 
     
 
