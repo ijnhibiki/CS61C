@@ -291,7 +291,8 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
                 result->data[i * mat->cols + j] = mat->data[i * mat->cols + j];
             }
         }
-    } else {
+    }
+    if (pow > 1) {
         for (int i = 0; i < pow; i++) {
             if (i == 0) {
                 mul_matrix(result, mat, mat);
