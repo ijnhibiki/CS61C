@@ -48,7 +48,7 @@ void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
  * You may assume `row` and `col` are valid. Note that the matrix is in row-major order.
  */
 double get(matrix *mat, int row, int col) {
-    // Task 1.1 TODO
+    // Task 1.1
     return mat->data[(mat->cols) * row + col];
 }
 
@@ -57,7 +57,7 @@ double get(matrix *mat, int row, int col) {
  * `col` are valid. Note that the matrix is in row-major order.
  */
 void set(matrix *mat, int row, int col, double val) {
-    // Task 1.1 TODO
+    // Task 1.1
     mat->data[(mat->cols) * row + col] = val;
 }
 
@@ -71,7 +71,7 @@ void set(matrix *mat, int row, int col, double val) {
  * Return 0 upon success.
  */
 int allocate_matrix(matrix **mat, int rows, int cols) {
-    // Task 1.2 TODO
+    // Task 1.2
     // HINTS: Follow these steps.
     // 1. Check if the dimensions are valid. Return -1 if either dimension is not positive.
     // 2. Allocate space for the new matrix struct. Return -2 if allocating memory failed.
@@ -88,7 +88,7 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
     if (new_mat == NULL) {
         return -2;
     }
-    new_mat->data = malloc(sizeof(double) * ((int)(rows + 1)) * ((int)(cols + 1)));
+    new_mat->data = malloc(sizeof(double) * ((long unsigned int)(rows + 1)) * ((long unsigned int)(cols + 1)));
     if (new_mat == NULL) {
         return -2;
     }
@@ -112,7 +112,7 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
  * matrix has no other references (including itself).
  */
 void deallocate_matrix(matrix *mat) {
-    // Task 1.3 TODO
+    // Task 1.3
     // HINTS: Follow these steps.
     // 1. If the matrix pointer `mat` is NULL, return.
     // 2. If `mat` has no parent: decrement its `ref_cnt` field by 1. If the `ref_cnt` field becomes 0, then free `mat` and its `data` field.
@@ -155,6 +155,9 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
     // 6. Increment the `ref_cnt` field of the `from` struct by 1.
     // 7. Store the address of the allocated matrix struct at the location `mat` is pointing at.
     // 8. Return 0 upon success.
+    if (rows <= 0 || cols <= 0) {
+        return -1;
+    }
 }
 
 /*
