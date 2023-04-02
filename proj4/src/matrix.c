@@ -166,10 +166,8 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
     if (new_mat->data == NULL) {
         return -2;
     }
-    for (int i = 0; i < rows; i ++) {
-        for (int j = 0; j < cols; j ++) {
-            new_mat->data[i * cols + j] = from->data[i * cols + j] + offset;
-        }
+    for (int i = 0; i < (rows + 1) * (cols + 1); i ++) {
+        new_mat->data[i] = from->data[i + offset];
     }
     new_mat->rows = rows;
     new_mat->cols = cols;
