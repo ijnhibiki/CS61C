@@ -297,7 +297,7 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
             if (i == 0) {
                 mul_matrix(result, mat, mat);
             } else {
-                mul_matrix(result, result, mat);
+                mul_matrix(result, mat, result);
             }
         }
     }
