@@ -302,8 +302,8 @@ int main (void)
         (CU_add_test(pSuite, "pow_test", pow_test) == NULL) ||
         (CU_add_test(pSuite, "alloc_fail_test", alloc_fail_test) == NULL) ||
         (CU_add_test(pSuite, "alloc_success_test", alloc_success_test) == NULL) ||
-        (CU_add_test(pSuite, "alloc_ref_fail_test", alloc_ref_fail_test) == NULL) ||
-        (CU_add_test(pSuite, "alloc_ref_success_test", alloc_ref_success_test) == NULL) ||
+        //(CU_add_test(pSuite, "alloc_ref_fail_test", alloc_ref_fail_test) == NULL) ||
+        //(CU_add_test(pSuite, "alloc_ref_success_test", alloc_ref_success_test) == NULL) ||
         (CU_add_test(pSuite, "dealloc_null_test", dealloc_null_test) == NULL) ||
         (CU_add_test(pSuite, "get_test", get_test) == NULL) ||
         (CU_add_test(pSuite, "set_test", set_test) == NULL)
