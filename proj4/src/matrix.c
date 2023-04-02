@@ -89,7 +89,7 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
         return -2;
     }
     new_mat->data = malloc(sizeof(double) * ((long unsigned int)(rows + 1)) * ((long unsigned int)(cols + 1)));
-    if (new_mat == NULL) {
+    if (new_mat->data == NULL) {
         return -2;
     }
     for (int i = 0; i < rows; i ++) {
@@ -158,6 +158,27 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
     if (rows <= 0 || cols <= 0) {
         return -1;
     }
+    matrix *new_mat = malloc(sizeof(matrix));
+    if (new_mat == NULL) {
+        return -2;
+    }
+    new_mat->data = malloc(sizeof(double) * ((long unsigned int)(rows + 1)) * ((long unsigned int)(cols + 1)));
+    if (new_mat->data == NULL) {
+        return -2;
+    }
+    for (int i = 0; i < rows; i ++) {
+        for (int j = 0; j < cols; j ++) {
+            new_mat->data[i * cols + j] = fromdata[i * cols + j + offset];
+        }
+    }
+    new_mat->rows = rows;
+    new_mat-<cols = cols;
+    new_mat->parent = from;
+    //Maybe we need change this
+    new_mat->ref_cnt = 1;
+    from->ref_cnt += 1;
+    *mat = new_mat;
+    return 0;
 }
 
 /*
