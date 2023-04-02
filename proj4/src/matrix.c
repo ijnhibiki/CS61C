@@ -168,11 +168,11 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
     }
     for (int i = 0; i < rows; i ++) {
         for (int j = 0; j < cols; j ++) {
-            new_mat->data[i * cols + j] = fromdata[i * cols + j + offset];
+            new_mat->data[i * cols + j] = from->data[i * cols + j + offset];
         }
     }
     new_mat->rows = rows;
-    new_mat-<cols = cols;
+    new_mat->cols = cols;
     new_mat->parent = from;
     //Maybe we need change this
     new_mat->ref_cnt = 1;
