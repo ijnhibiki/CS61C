@@ -145,7 +145,7 @@ void deallocate_matrix(matrix *mat) {
  * there is no need to allocate space for matrix data.
  */
 int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int cols) {
-    // Task 1.4 TODO
+    // Task 1.4
     // HINTS: Follow these steps.
     // 1. Check if the dimensions are valid. Return -1 if either dimension is not positive.
     // 2. Allocate space for the new matrix struct. Return -2 if allocating memory failed.
@@ -178,6 +178,9 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
  */
 void fill_matrix(matrix *mat, double val) {
     // Task 1.5 TODO
+    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
+        mat->data[i] = val;
+    }
 }
 
 /*
