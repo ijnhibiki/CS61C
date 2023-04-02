@@ -177,7 +177,7 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
  * Sets all entries in mat to val. Note that the matrix is in row-major order.
  */
 void fill_matrix(matrix *mat, double val) {
-    // Task 1.5 TODO
+    // Task 1.5
     for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
         mat->data[i] = val;
     }
@@ -190,6 +190,7 @@ void fill_matrix(matrix *mat, double val) {
  */
 int abs_matrix(matrix *result, matrix *mat) {
     // Task 1.5 TODO
+
 }
 
 /*

@@ -93,6 +93,17 @@ void dealloc_null_test(void) {
   matrix *mat = NULL;
   deallocate_matrix(mat); // Test the null case doesn't crash
 }
+void fill_test(void) {
+    matrix *mat = NULL;
+    allocate_matrix(&mat, 3, 3);
+    fill_matrix(mat, 100);
+    CU_ASSERT_EQUAL(get(mat, 0, 0), 100);
+    CU_ASSERT_EQUAL(get(mat, 0, 1), 100);
+    CU_ASSERT_EQUAL(get(mat, 1, 0), 100);
+    CU_ASSERT_EQUAL(get(mat, 1, 1), 100);
+    CU_ASSERT_EQUAL(get(mat, 2, 2), 100);
+    deallocate_matrix(mat);
+}
 
 void add_test(void) {
   matrix *result = NULL;
