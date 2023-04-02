@@ -297,6 +297,7 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
             if (i == 0) {
                 mul_matrix(result, mat, mat);
             } else {
+                printf("%lf", get(result, 0, 0));
                 mul_matrix(result, mat, result);
             }
         }
