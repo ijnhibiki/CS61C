@@ -14,16 +14,6 @@ def main():
                       extra_link_args=LDFLAGS,
                       language='c')
           ])
-    setup(name="dumbpy",
-          version="0.0.1",
-          description="dumbpy matrix operations",
-          ext_modules=[
-              Extension("dumbpy",
-                        sources=["src/dumbpy.c", "src/naive_matrix.c"],
-                        extra_compile_args=CFLAGS,
-                        extra_link_args=LDFLAGS,
-                        language='c')
-          ])
 
 
 if __name__ == "__main__":
