@@ -189,7 +189,15 @@ void fill_matrix(matrix *mat, double val) {
  * Note that the matrix is in row-major order.
  */
 int abs_matrix(matrix *result, matrix *mat) {
-    // Task 1.5 TODO
+    // Task 1.5
+    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
+        if (mat->data[i] < 0) {
+            result->data[i] = -(mat->data[i]);
+        } else {
+            result->data[i] = (mat->data[i]);
+        }
+    }
+    return 0;
 
 }
 
