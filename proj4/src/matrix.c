@@ -300,7 +300,7 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
                 mul_matrix(result, result, mat);
             }
         }
-
+        printf("%lf", get(result, 0, 0));
     }
     return 0;
 }
