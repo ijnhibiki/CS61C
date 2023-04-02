@@ -307,6 +307,7 @@ int main (void)
         (CU_add_test(pSuite, "sub_test", sub_test) == NULL) ||
         (CU_add_test(pSuite, "neg_test", neg_test) == NULL) ||
         */
+        (CU_add_test(pSuite, "fill_test", fill_test) == NULL) ||
         (CU_add_test(pSuite, "mul_square_test", mul_square_test) == NULL) ||
         (CU_add_test(pSuite, "mul_non_square_test", mul_non_square_test) == NULL) ||
         (CU_add_test(pSuite, "abs_test", abs_test) == NULL) ||
