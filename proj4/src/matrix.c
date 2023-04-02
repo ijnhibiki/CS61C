@@ -208,7 +208,13 @@ int abs_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int neg_matrix(matrix *result, matrix *mat) {
-    // Task 1.5 TODO
+    // Task 1.5
+
+    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
+        result->data[i] = -(mat->data[i]);
+    }
+    return 0;
+
 }
 
 /*
@@ -218,7 +224,11 @@ int neg_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
-    // Task 1.5 TODO
+    // Task 1.5
+    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
+        result->data[i] = mat1->data[i] + mat2->data[i];
+    }
+    return 0;
 }
 
 /*
@@ -229,7 +239,11 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  * Note that the matrix is in row-major order.
  */
 int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
-    // Task 1.5 TODO
+    // Task 1.5
+    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
+        result->data[i] = mat1->data[i] - mat2->data[i];
+    }
+    return 0;
 }
 
 /*
