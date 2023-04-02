@@ -255,7 +255,7 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     // Task 1.6
-    double *new_data = malloc(sizeof(double) * (mat1->rows) * (mat2->cols));
+    double *new_data = malloc(sizeof(double) * (long unsigned int)(mat1->rows) * (long unsigned int)(mat2->cols));
     for (int i = 0; i < mat1->rows; i ++) {
         for (int j = 0; j < mat2->cols; j++) {
             new_data[i * mat2->cols + j] = 0;
