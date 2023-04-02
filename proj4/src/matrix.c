@@ -127,8 +127,7 @@ void deallocate_matrix(matrix *mat) {
             free(mat);
         }
     } else {
-        deallocate_matrix(mat->parent);
-        free(mat->data);
+        deallocate_matrix((mat->parent));
         free(mat);
     }
 }
