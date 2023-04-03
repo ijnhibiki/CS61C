@@ -257,15 +257,15 @@ int abs_matrix(matrix *result, matrix *mat) {
  */
 int neg_matrix(matrix *result, matrix *mat) {
     /* Normal */
-    // double val = 0.0;
-    // for (size_t i = 0; i < mat->rows; i++) {
-    //     for (size_t j = 0; j < mat->cols; j++) {
-    //         val = get(mat, i, j) * (-1);
-    //         set(result, i, j, val);
-    //     }
-    // }
+    double val = 0.0;
+    for (size_t i = 0; i < mat->rows; i++) {
+        for (size_t j = 0; j < mat->cols; j++) {
+            val = get(mat, i, j) * (-1);
+            set(result, i, j, val);
+        }
+    }
 
-    /* SIMD */
+    /* SIMD
     __m256d _zero = _mm256_set1_pd(0);
     size_t i = 0;
     for (; i < mat->rows * mat->cols / 4 * 4; i+=4) {
@@ -280,6 +280,7 @@ int neg_matrix(matrix *result, matrix *mat) {
         *(result->data + i) = val;
     }
 
+    */
     return 0;
 }
 
@@ -291,15 +292,15 @@ int neg_matrix(matrix *result, matrix *mat) {
  */
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     /* Normal */
-    // double val = 0.0;
-    // for (size_t i = 0; i < mat1->rows; i++) {
-    //     for (size_t j = 0; j < mat1->cols; j++) {
-    //         val = get(mat1, i, j) + get(mat2, i, j);
-    //         set(result, i, j, val);
-    //     }
-    // }
+    double val = 0.0;
+    for (size_t i = 0; i < mat1->rows; i++) {
+         for (size_t j = 0; j < mat1->cols; j++) {
+             val = get(mat1, i, j) + get(mat2, i, j);
+             set(result, i, j, val);
+         }
+    }
 
-    /* SIMD */
+    /* SIMD
     size_t i = 0;
     for (; i < mat1->rows * mat1->cols / 4 * 4; i+=4) {
         __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
@@ -312,6 +313,7 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     for (; i < mat1->rows * mat1->cols; i++) {
         *(result->data + i) = *(mat1->data + i) + *(mat2->data + i);
     }
+    */
 
     return 0;
 }
@@ -325,15 +327,15 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     /* Normal */
-    // double val = 0.0;
-    // for (size_t i = 0; i < mat1->rows; i++) {
-    //     for (size_t j = 0; j < mat1->cols; j++) {
-    //         val = get(mat1, i, j) - get(mat2, i, j);
-    //         set(result, i, j, val);
-    //     }
-    // }
+    double val = 0.0;
+    for (size_t i = 0; i < mat1->rows; i++) {
+         for (size_t j = 0; j < mat1->cols; j++) {
+             val = get(mat1, i, j) - get(mat2, i, j);
+             set(result, i, j, val);
+         }
+    }
 
-    /* SIMD */
+    /* SIMD
     size_t i = 0;
     for (; i < mat1->rows * mat1->cols / 4 * 4; i+=4) {
         __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
@@ -346,6 +348,7 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     for (; i < mat1->rows * mat1->cols; i++) {
         *(result->data + i) = *(mat1->data + i) - *(mat2->data + i);
     }
+    */
 
     return 0;
 }
@@ -359,17 +362,17 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     /* Normal */
-    // for (size_t i = 0; i < mat1->rows; i++) {
-    //     for (size_t j = 0; j < mat2->cols; j++) {
-    //         double val = 0.0;
-    //         for (size_t z = 0; z < mat1->cols; z++) {
-    //             val += get(mat1, i, z) * get(mat2, z, j);
-    //         }
-    //         set(result, i, j, val);
-    //     }
-    // }
+    for (size_t i = 0; i < mat1->rows; i++) {
+         for (size_t j = 0; j < mat2->cols; j++) {
+             double val = 0.0;
+            for (size_t z = 0; z < mat1->cols; z++) {
+                 val += get(mat1, i, z) * get(mat2, z, j);
+            }
+            set(result, i, j, val);
+        }
+    }
 
-    /* SIMD */
+    /* SIMD
     // transpose the 2nd matrix
     matrix *tmp = NULL;
     allocate_matrix(&tmp, mat2->cols, mat2->rows);
@@ -402,6 +405,7 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
             set(result, i, j, sum);
         }
     }
+    */
 
     return 0;
 }
