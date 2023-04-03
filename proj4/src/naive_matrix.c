@@ -30,6 +30,7 @@
 double rand_double(double low, double high) {
     double range = (high - low);
     double div = RAND_MAX / range;
+    printf("%lf", rand() / div);
     return low + (rand() / div);
 }
 
@@ -39,7 +40,6 @@ void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
     for (int i = 0; i < result->rows; i++) {
         for (int j = 0; j < result->cols; j++) {
             set(result, i, j, rand_double(low, high));
-            printf("%lf", get(result, i, j));
         }
     }
 }
