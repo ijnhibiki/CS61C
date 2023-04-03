@@ -30,7 +30,6 @@
 double rand_double(double low, double high) {
     double range = (high - low);
     double div = RAND_MAX / range;
-    printf("%lf", rand() / div);
     return low + (rand() / div);
 }
 
