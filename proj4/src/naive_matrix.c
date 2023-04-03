@@ -186,13 +186,14 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
  */
 void fill_matrix(matrix *mat, double val) {
     /* Normal implementation */
-    // for (size_t i = 0; i < mat->rows; i++) {
-    //     for (size_t j = 0; j < mat->cols; j++) {
-    //         set(mat, i, j, val);
-    //     }
-    // }
+     for (size_t i = 0; i < mat->rows; i++) {
+         for (size_t j = 0; j < mat->cols; j++) {
+             set(mat, i, j, val);
+         }
+    }
 
     // SIMD implementation
+    /*
     __m256d fill_vec = _mm256_set1_pd(val);
     size_t i = 0;
     for (; i < mat->rows * mat->cols / 4 * 4; i+=4) {
@@ -203,6 +204,7 @@ void fill_matrix(matrix *mat, double val) {
     for (; i < mat->rows * mat->cols; i++) {
         *(mat->data + i) = val;
     }
+     */
     
 }
 
@@ -213,18 +215,18 @@ void fill_matrix(matrix *mat, double val) {
  */
 int abs_matrix(matrix *result, matrix *mat) {
     /*  Normal implementation  */
-    // double val = 0.0;
-    // for (size_t i = 0; i < mat->rows; i++) {
-    //     for (size_t j = 0; j < mat->cols; j++) {
-    //         val = get(mat, i, j);
-    //         if (val < 0) {
-    //             val *= -1;
-    //         }
-    //         set(result, i, j, val);
-    //     }
-    // }
+     double val = 0.0;
+     for (size_t i = 0; i < mat->rows; i++) {
+         for (size_t j = 0; j < mat->cols; j++) {
+             val = get(mat, i, j);
+             if (val < 0) {
+                 val *= -1;
+             }
+        set(result, i, j, val);
+        }
+    }
 
-    /* SIMD */
+    /* SIMD
     __m256d _zero = _mm256_set1_pd(0);
     size_t i = 0;
     for (; i < mat->rows * mat->cols / 4 * 4; i+=4) {
@@ -242,6 +244,7 @@ int abs_matrix(matrix *result, matrix *mat) {
         }
         *(result->data + i) = val;
     }
+    */
 
     return 0;
 }
