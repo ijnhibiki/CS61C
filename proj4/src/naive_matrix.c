@@ -291,7 +291,7 @@ int neg_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
-    /* Normal
+    /* Normal */
     double val = 0.0;
     for (size_t i = 0; i < mat1->rows; i++) {
          for (size_t j = 0; j < mat1->cols; j++) {
@@ -300,7 +300,7 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
          }
     }
     */
-    /* SIMD */
+    /* SIMD
     size_t i = 0;
     for (; i < mat1->rows * mat1->cols / 4 * 4; i+=4) {
         __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
@@ -313,7 +313,7 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     for (; i < mat1->rows * mat1->cols; i++) {
         *(result->data + i) = *(mat1->data + i) + *(mat2->data + i);
     }
-
+    */
 
     return 0;
 }
