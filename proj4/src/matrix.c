@@ -265,7 +265,7 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
         _mm256_storeu_pd(result->data + i, sum);
    }
    //tail case
-    for (unsigned int i = (mat->rows) * (mat->cols) / 4 * 4; i < mat1->rows * mat1->cols; i++) {
+    for (unsigned int i = (mat1->rows) * (mat1->cols) / 4 * 4; i < mat1->rows * mat1->cols; i++) {
         *(result->data + i) = *(mat1->data + i) + *(mat2->data + i);
     }
 }
