@@ -258,7 +258,7 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     }
     return 0;
     */
-   for (unsigned int i = 0; i < (mat->rows) * (mat->cols)/ 4 * 4; i += 4) {
+   for (unsigned int i = 0; i < (mat1->rows) * (mat1->cols)/ 4 * 4; i += 4) {
         __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
         __m256d vec2 = _mm256_loadu_pd(mat2->data + i);
         __m256d sum = _mm256_add_pd(vec1, vec2);
@@ -268,7 +268,6 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     for (unsigned int i = (mat->rows) * (mat->cols) / 4 * 4; i < mat1->rows * mat1->cols; i++) {
         *(result->data + i) = *(mat1->data + i) + *(mat2->data + i);
     }
-    */
 }
 
 /*
