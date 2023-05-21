@@ -52,8 +52,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db4c75e3-707e-4aac-b836-a6798e9067d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/state.c" beforeDir="false" afterPath="$PROJECT_DIR$/state.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab09/.vscode/c_cpp_properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/../lab09/.vscode/c_cpp_properties.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab09/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../lab09/.vscode/settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,25 +123,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/hibiki/cs61c/sp23-s303/proj1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="C/C++ File.snake.c">
+}]]></component>
+  <component name="RunManager">
     <configuration name="01-simple" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1" TARGET_NAME="01-simple" CONFIG_NAME="01-simple" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -323,49 +325,6 @@
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="C/C++ File.snake.c" />
-      <item itemvalue="Makefile Application.01-simple" />
-      <item itemvalue="Makefile Application.02-direction" />
-      <item itemvalue="Makefile Application.03-tail" />
-      <item itemvalue="Makefile Application.04-food" />
-      <item itemvalue="Makefile Application.05-wall" />
-      <item itemvalue="Makefile Application.06-small" />
-      <item itemvalue="Makefile Application.07-medium" />
-      <item itemvalue="Makefile Application.08-multisnake" />
-      <item itemvalue="Makefile Application.09-everything" />
-      <item itemvalue="Makefile Application.10-filled" />
-      <item itemvalue="Makefile Application.11-manyclose" />
-      <item itemvalue="Makefile Application.12-corner" />
-      <item itemvalue="Makefile Application.13-sus" />
-      <item itemvalue="Makefile Application.14-orochi" />
-      <item itemvalue="Makefile Application.15-hydra" />
-      <item itemvalue="Makefile Application.16-huge" />
-      <item itemvalue="Makefile Application.17-wide" />
-      <item itemvalue="Makefile Application.18-tall" />
-      <item itemvalue="Makefile Application.19-101-127" />
-      <item itemvalue="Makefile Application.20-long-line" />
-      <item itemvalue="Makefile Application.21-bigL" />
-      <item itemvalue="Makefile Application.all" />
-      <item itemvalue="Makefile Application.check-hashes" />
-      <item itemvalue="Makefile Application.debug-custom-tests" />
-      <item itemvalue="Makefile Application.debug-unit-tests" />
-      <item itemvalue="Makefile Application.run-custom-tests" />
-      <item itemvalue="Makefile Application.run-integration-tests" />
-      <item itemvalue="Makefile Application.run-nonexistent-input-file-test" />
-      <item itemvalue="Makefile Application.run-unit-tests" />
-      <item itemvalue="Makefile Application.valgrind-test-free-state" />
-      <item itemvalue="Makefile Application.custom-tests" />
-      <item itemvalue="Makefile Application.help" />
-      <item itemvalue="Makefile Application.interactive-snake" />
-      <item itemvalue="Makefile Application.snake" />
-      <item itemvalue="Makefile Application.unit-tests" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="C/C++ File.snake.c" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
