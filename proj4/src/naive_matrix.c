@@ -299,7 +299,6 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
              set(result, i, j, val);
          }
     }
-    */
     /* SIMD
     size_t i = 0;
     for (; i < mat1->rows * mat1->cols / 4 * 4; i+=4) {
