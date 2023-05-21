@@ -258,12 +258,12 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     }
     return 0;
     */
-   for (unsigned int i = 0; i < (mat1->rows) * (mat1->cols)/ 4 * 4; i += 4) {
+    for (unsigned int i = 0; i < (mat1->rows) * (mat1->cols)/ 4 * 4; i += 4) {
         __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
         __m256d vec2 = _mm256_loadu_pd(mat2->data + i);
         __m256d sum = _mm256_add_pd(vec1, vec2);
         _mm256_storeu_pd(result->data + i, sum);
-   }
+    }
    //tail case
     for (unsigned int i = (mat1->rows) * (mat1->cols) / 4 * 4; i < mat1->rows * mat1->cols; i++) {
         *(result->data + i) = *(mat1->data + i) + *(mat2->data + i);
@@ -279,10 +279,22 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     // Task 1.5
+    /*
     for (int i = 0 ; i < (mat1->rows) * (mat1->cols); i ++) {
         result->data[i] = mat1->data[i] - mat2->data[i];
     }
     return 0;
+    */
+    for (unsigned int i = 0; i < (mat1->rows) * (mat1->cols)/ 4 * 4; i += 4) {
+        __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
+        __m256d vec2 = _mm256_loadu_pd(mat2->data + i);
+        __m256d sum = _mm256_sub_pd(vec1, vec2);
+        _mm256_storeu_pd(result->data + i, sum);
+    }
+   //tail case
+    for (unsigned int i = (mat1->rows) * (mat1->cols) / 4 * 4; i < mat1->rows * mat1->cols; i++) {
+        *(result->data + i) = *(mat1->data + i) - *(mat2->data + i);
+    }
 }
 
 /*
