@@ -165,3 +165,6 @@ class TestSlice(TestCase):
         dp_mat, nc_mat = rand_dp_nc_matrix(2, 2, seed=0)
         self.assertTrue(cmp_dp_nc_matrix(dp_mat[0], nc_mat[0]))
         self.assertTrue(cmp_dp_nc_matrix(dp_mat[1], nc_mat[1]))
+
+if __name__ == '__main__':
+    unittests.main()
