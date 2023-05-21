@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <omp.h>
 
-
 // Include SSE intrinsics
 #if defined(_MSC_VER)
 #include <intrin.h>
@@ -49,8 +48,8 @@ void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
  * You may assume `row` and `col` are valid. Note that the matrix is in row-major order.
  */
 double get(matrix *mat, int row, int col) {
-    // Task 1.1
-    return mat->data[(mat->cols) * row + col];
+    int item = *(mat->data + row * mat->cols + col);
+    return item;
 }
 
 /*
@@ -58,8 +57,7 @@ double get(matrix *mat, int row, int col) {
  * `col` are valid. Note that the matrix is in row-major order.
  */
 void set(matrix *mat, int row, int col, double val) {
-    // Task 1.1
-    mat->data[(mat->cols) * row + col] = val;
+    *(mat->data + row * mat->cols + col) = val;
 }
 
 /*
@@ -72,39 +70,36 @@ void set(matrix *mat, int row, int col, double val) {
  * Return 0 upon success.
  */
 int allocate_matrix(matrix **mat, int rows, int cols) {
-    // Task 1.2
-    // HINTS: Follow these steps.
     // 1. Check if the dimensions are valid. Return -1 if either dimension is not positive.
+    if(rows <= 0 || cols <=0) {
+        return -1;
+    }
+
     // 2. Allocate space for the new matrix struct. Return -2 if allocating memory failed.
+    matrix *mp = NULL;
+    mp = (matrix *)malloc(sizeof(matrix));
+    if (mp == NULL) {
+        return -2;
+    }
+    
     // 3. Allocate space for the matrix data, initializing all entries to be 0. Return -2 if allocating memory failed.
+    mp->data = (double *)calloc(rows * cols, sizeof(double));
+    if (mp->data == NULL) {
+        return -2;
+    }
+
     // 4. Set the number of rows and columns in the matrix struct according to the arguments provided.
     // 5. Set the `parent` field to NULL, since this matrix was not created from a slice.
     // 6. Set the `ref_cnt` field to 1.
+    mp->rows = rows;
+    mp->cols = cols;
+    mp->parent = NULL;
+    mp->ref_cnt = 1;
+
     // 7. Store the address of the allocated matrix struct at the location `mat` is pointing at.
     // 8. Return 0 upon success.
-    if (rows <= 0 || cols <= 0) {
-        return -1;
-    }
-    matrix *new_mat = malloc(sizeof(matrix));
-    if (new_mat == NULL) {
-        return -2;
-    }
-    new_mat->data = malloc(sizeof(double) * ((long unsigned int)(rows + 1)) * ((long unsigned int)(cols + 1)));
-    if (new_mat->data == NULL) {
-        return -2;
-    }
-    for (int i = 0; i < rows; i ++) {
-        for (int j = 0; j < cols; j ++) {
-            new_mat->data[i * cols + j] = 0;
-        }
-    }
-    new_mat->rows = rows;
-    new_mat->cols = cols;
-    new_mat->parent = NULL;
-    new_mat->ref_cnt = 1;
-    *mat = new_mat;
+    *mat = mp;
     return 0;
-
 }
 
 /*
@@ -113,22 +108,23 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
  * matrix has no other references (including itself).
  */
 void deallocate_matrix(matrix *mat) {
-    // Task 1.3
-    // HINTS: Follow these steps.
     // 1. If the matrix pointer `mat` is NULL, return.
     // 2. If `mat` has no parent: decrement its `ref_cnt` field by 1. If the `ref_cnt` field becomes 0, then free `mat` and its `data` field.
     // 3. Otherwise, recursively call `deallocate_matrix` on `mat`'s parent, then free `mat`.
     if (mat == NULL) {
         return;
     }
+    
     if (mat->parent == NULL) {
-        mat->ref_cnt -= 1;
+        (mat->ref_cnt)--;
         if (mat->ref_cnt == 0) {
-            free((mat->data));
+            free(mat->data);
+            mat->data = NULL;
             free(mat);
+            mat = NULL;
         }
     } else {
-        deallocate_matrix((mat->parent));
+        deallocate_matrix(mat->parent);
         free(mat);
     }
 }
@@ -146,42 +142,70 @@ void deallocate_matrix(matrix *mat) {
  * there is no need to allocate space for matrix data.
  */
 int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int cols) {
-    // Task 1.4
-    // HINTS: Follow these steps.
     // 1. Check if the dimensions are valid. Return -1 if either dimension is not positive.
-    // 2. Allocate space for the new matrix struct. Return -2 if allocating memory failed.
-    // 3. Set the `data` field of the new struct to be the `data` field of the `from` struct plus `offset`.
-    // 4. Set the number of rows and columns in the new struct according to the arguments provided.
-    // 5. Set the `parent` field of the new struct to the `from` struct pointer.
-    // 6. Increment the `ref_cnt` field of the `from` struct by 1.
-    // 7. Store the address of the allocated matrix struct at the location `mat` is pointing at.
-    // 8. Return 0 upon success.
     if (rows <= 0 || cols <= 0) {
         return -1;
     }
-    matrix *new_mat = malloc(sizeof(matrix));
-    if (new_mat == NULL) {
+    // 2. Allocate space for the new matrix struct. Return -2 if allocating memory failed.
+    matrix *mp = NULL;
+    mp = (matrix *)malloc(sizeof(matrix));
+    if (mp == NULL) {
         return -2;
     }
-    new_mat->data = from->data + offset;
-    new_mat->rows = rows;
-    new_mat->cols = cols;
-    new_mat->parent = from;
-    //Maybe we need change this
-    new_mat->ref_cnt = 1;
-    from->ref_cnt += 1;
-    *mat = new_mat;
+    // 3. Set the `data` field of the new struct to be the `data` field of the `from` struct plus `offset`.
+    mp->data = from->data + offset;
+    // 4. Set the number of rows and columns in the new struct according to the arguments provided.
+    // 5. Set the `parent` field of the new struct to the `from` struct pointer.
+    mp->rows = rows;
+    mp->cols = cols;
+    mp->parent = from;
+    // 6. Increment the `ref_cnt` field of the `from` struct by 1.
+    (from->ref_cnt)++;
+    // 7. Store the address of the allocated matrix struct at the location `mat` is pointing at.
+    *mat = mp;
+    // 8. Return 0 upon success.
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
  * Sets all entries in mat to val. Note that the matrix is in row-major order.
  */
 void fill_matrix(matrix *mat, double val) {
-    // Task 1.5
-    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
-        mat->data[i] = val;
+    /* Normal implementation */
+     for (size_t i = 0; i < mat->rows; i++) {
+         for (size_t j = 0; j < mat->cols; j++) {
+             set(mat, i, j, val);
+         }
     }
+
+    // SIMD implementation
+    /*
+    __m256d fill_vec = _mm256_set1_pd(val);
+    size_t i = 0;
+    for (; i < mat->rows * mat->cols / 4 * 4; i+=4) {
+        _mm256_storeu_pd(mat->data + i, fill_vec);
+    }
+
+    //tail case
+    for (; i < mat->rows * mat->cols; i++) {
+        *(mat->data + i) = val;
+    }
+     */
+    
 }
 
 /*
@@ -190,33 +214,39 @@ void fill_matrix(matrix *mat, double val) {
  * Note that the matrix is in row-major order.
  */
 int abs_matrix(matrix *result, matrix *mat) {
-    // Task 1.5
-    /* naive implementation
-    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
-        if (mat->data[i] < 0) {
-            result->data[i] = -(mat->data[i]);
-        } else {
-            result->data[i] = (mat->data[i]);
+    /*  Normal implementation  */
+     double val = 0.0;
+     for (size_t i = 0; i < mat->rows; i++) {
+         for (size_t j = 0; j < mat->cols; j++) {
+             val = get(mat, i, j);
+             if (val < 0) {
+                 val *= -1;
+             }
+        set(result, i, j, val);
         }
     }
-     */
-    __m256d zero = _mm256_set1_pd (0);
-    for (int i = 0; i < (mat->rows) * (mat->cols)/ 4 * 4; i += 4) {
-        __m256d temp = _mm256_loadu_pd (mat->data + i);
-        __m256d neg = _mm256_sub_pd (zero, temp);
-        __m256d max = _mm256_max_pd (temp, neg);
-        _mm256_storeu_pd (result->data + i, max);
-    }
-    // tail case:
-    for(unsigned int i = (mat->rows) * (mat->cols) / 4 * 4; i < (mat->rows) * (mat->cols); i++) {
-        if (mat->data[i] < 0) {
-            result->data[i] = -(mat->data[i]);
-        } else {
-            result->data[i] = (mat->data[i]);
-        }
-    }
-    return 0;
 
+    /* SIMD
+    __m256d _zero = _mm256_set1_pd(0);
+    size_t i = 0;
+    for (; i < mat->rows * mat->cols / 4 * 4; i+=4) {
+        __m256d mtx_vec = _mm256_loadu_pd(mat->data + i);
+        __m256d sub_vec = _mm256_sub_pd(_zero, mtx_vec);
+        __m256d abs_vec = _mm256_max_pd(sub_vec, mtx_vec);
+        _mm256_storeu_pd(result->data + i, abs_vec);
+    }
+
+    // tail case
+    for (; i < mat->rows * mat->cols; i++) {
+        double val = *(mat->data + i);
+        if (val < 0) {
+            val *= -1;
+        }
+        *(result->data + i) = val;
+    }
+    */
+
+    return 0;
 }
 
 /*
@@ -226,13 +256,32 @@ int abs_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int neg_matrix(matrix *result, matrix *mat) {
-    // Task 1.5
-
-    for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
-        result->data[i] = -(mat->data[i]);
+    /* Normal */
+    double val = 0.0;
+    for (size_t i = 0; i < mat->rows; i++) {
+        for (size_t j = 0; j < mat->cols; j++) {
+            val = get(mat, i, j) * (-1);
+            set(result, i, j, val);
+        }
     }
-    return 0;
 
+    /* SIMD
+    __m256d _zero = _mm256_set1_pd(0);
+    size_t i = 0;
+    for (; i < mat->rows * mat->cols / 4 * 4; i+=4) {
+        __m256d mtx_vec = _mm256_loadu_pd(mat->data + i);
+        __m256d neg_vec = _mm256_sub_pd(_zero, mtx_vec);
+        _mm256_storeu_pd(result->data + i, neg_vec);
+    }
+    
+    // tail case
+    for (; i < mat->rows * mat->cols; i++) {
+        int val = *(mat->data + i) * (-1);
+        *(result->data + i) = val;
+    }
+
+    */
+    return 0;
 }
 
 /*
@@ -242,10 +291,29 @@ int neg_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
-    // Task 1.5
-    for (int i = 0 ; i < (mat1->rows) * (mat1->cols); i ++) {
-        result->data[i] = mat1->data[i] + mat2->data[i];
+    /* Normal */
+    double val = 0.0;
+    for (size_t i = 0; i < mat1->rows; i++) {
+         for (size_t j = 0; j < mat1->cols; j++) {
+             val = get(mat1, i, j) + get(mat2, i, j);
+             set(result, i, j, val);
+         }
     }
+    /* SIMD
+    size_t i = 0;
+    for (; i < mat1->rows * mat1->cols / 4 * 4; i+=4) {
+        __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
+        __m256d vec2 = _mm256_loadu_pd(mat2->data + i);
+        __m256d add_vec = _mm256_add_pd(vec1, vec2);
+        _mm256_storeu_pd(result->data + i, add_vec);
+    }
+    
+    //tail case
+    for (; i < mat1->rows * mat1->cols; i++) {
+        *(result->data + i) = *(mat1->data + i) + *(mat2->data + i);
+    }
+    */
+
     return 0;
 }
 
@@ -257,10 +325,30 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  * Note that the matrix is in row-major order.
  */
 int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
-    // Task 1.5
-    for (int i = 0 ; i < (mat1->rows) * (mat1->cols); i ++) {
-        result->data[i] = mat1->data[i] - mat2->data[i];
+    /* Normal */
+    double val = 0.0;
+    for (size_t i = 0; i < mat1->rows; i++) {
+         for (size_t j = 0; j < mat1->cols; j++) {
+             val = get(mat1, i, j) - get(mat2, i, j);
+             set(result, i, j, val);
+         }
     }
+
+    /* SIMD
+    size_t i = 0;
+    for (; i < mat1->rows * mat1->cols / 4 * 4; i+=4) {
+        __m256d vec1 = _mm256_loadu_pd(mat1->data + i);
+        __m256d vec2 = _mm256_loadu_pd(mat2->data + i);
+        __m256d sub_vec = _mm256_sub_pd(vec1, vec2);
+        _mm256_storeu_pd(result->data + i, sub_vec);
+    }
+    
+    //tail case
+    for (; i < mat1->rows * mat1->cols; i++) {
+        *(result->data + i) = *(mat1->data + i) - *(mat2->data + i);
+    }
+    */
+
     return 0;
 }
 
@@ -272,17 +360,52 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  * Note that the matrix is in row-major order.
  */
 int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
-    // Task 1.6
-    double *new_data = malloc(sizeof(double) * (long unsigned int)(mat1->rows) * (long unsigned int)(mat2->cols));
-    for (int i = 0; i < mat1->rows; i ++) {
-        for (int j = 0; j < mat2->cols; j++) {
-            new_data[i * mat2->cols + j] = 0;
-            for (int k = 0; k < mat1->cols; k++) {
-                new_data[i * mat2->cols + j] += mat1->data[i * mat1->cols + k] * mat2->data[j + k * mat2->cols];
+    /* Normal */
+    for (size_t i = 0; i < mat1->rows; i++) {
+         for (size_t j = 0; j < mat2->cols; j++) {
+             double val = 0.0;
+            for (size_t z = 0; z < mat1->cols; z++) {
+                 val += get(mat1, i, z) * get(mat2, z, j);
             }
+            set(result, i, j, val);
         }
     }
-    result->data = new_data;
+
+    /* SIMD
+    // transpose the 2nd matrix
+    matrix *tmp = NULL;
+    allocate_matrix(&tmp, mat2->cols, mat2->rows);
+    for (size_t i = 0; i < mat2->rows; i++) {
+        for (size_t j = 0; j < mat2->cols; j++) {
+            set(tmp, j, i, get(mat2, i, j));
+        }
+    }
+    
+    // calculate the dot product
+    double tmp_arr[4];
+    for (size_t i = 0; i < mat1->rows; i++) {
+        for (size_t j = 0; j < tmp->rows; j++) {
+            // process 4 elements once
+            double sum = 0.0;
+            size_t z = 0;
+            for (; z < tmp->cols / 4 * 4; z+=4) {
+                __m256d vec1 = _mm256_loadu_pd(mat1->data + i * mat1->cols + z);
+                __m256d vec2 = _mm256_loadu_pd(tmp->data + j * tmp->cols + z);
+                __m256d mul_vec = _mm256_mul_pd(vec1, vec2);
+                _mm256_storeu_pd(tmp_arr, mul_vec);
+                sum += tmp_arr[0] + tmp_arr[1] + tmp_arr[2] + tmp_arr[3];
+            }
+
+            // tail case
+            for (; z < tmp->cols; z++) {
+                sum += get(mat1, i, z) * get(tmp, j, z);
+            }
+
+            set(result, i, j, sum);
+        }
+    }
+    */
+
     return 0;
 }
 
@@ -294,34 +417,28 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  * Note that the matrix is in row-major order.
  */
 int pow_matrix(matrix *result, matrix *mat, int pow) {
-    // Task 1.6 TODO
+    // create an identity matrix
     if (pow == 0) {
-        for (int i = 0; i < mat->rows; i++) {
-            for (int j = 0; j < mat->cols; j++) {
-                if (i == j) {
-                    result->data[i * mat->cols + j] = 1;
-                } else {
-                    result->data[i * mat->cols + j] = 0;
-                }
-            }
-        }
+        for (size_t i = 0; i < result->rows; i++) {
+            set(result, i, i, 1);
+        } 
+        return 0;
     }
-    if (pow == 1) {
-        for (int i = 0; i < mat->rows; i++) {
-            for (int j = 0; j < mat->cols; j++) {
-                result->data[i * mat->cols + j] = mat->data[i * mat->cols + j];
-            }
-        }
-    }
-    if (pow > 1) {
-        for (int i = 0; i < pow - 1; i++) {
-            if (i == 0) {
-                mul_matrix(result, mat, mat);
-            } else {
 
-                mul_matrix(result, result, mat);
-            }
-        }
+    // create an all zero matrix
+    matrix *zero = NULL;
+    allocate_matrix(&zero, result->rows, result->rows);
+    fill_matrix(zero, 0);
+    add_matrix(result, zero, mat);
+    if (pow == 1) {
+        return 0;
+    } 
+
+    matrix *tmp = NULL;
+    allocate_matrix(&tmp, result->rows, result->rows);
+    for (size_t i = 0; i < pow - 1; i++) {
+        mul_matrix(tmp, result, mat);
+        add_matrix(result, zero, tmp);
     }
     return 0;
 }
