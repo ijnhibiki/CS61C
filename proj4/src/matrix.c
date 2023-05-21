@@ -184,7 +184,8 @@ void fill_matrix(matrix *mat, double val) {
     }
     */
    __m256d value = _mm256_set1_pd (val);
-   for (unsigned int i = 0; i < (mat->rows) * (mat->cols)/ 4 * 4; i += 4) {
+    #pragma omp parallel for
+    for (unsigned int i = 0; i < (mat->rows) * (mat->cols)/ 4 * 4; i += 4) {
         _mm256_storeu_pd (mat->data + i, value);
     }
     for(unsigned int i = (mat->rows) * (mat->cols) / 4 * 4; i < (mat->rows) * (mat->cols); i++) {
@@ -210,6 +211,7 @@ int abs_matrix(matrix *result, matrix *mat) {
     }
      */
     __m256d zero = _mm256_set1_pd (0);
+    #pragma omp parallel for
     for (unsigned int i = 0; i < (mat->rows) * (mat->cols)/ 4 * 4; i += 4) {
         __m256d temp = _mm256_loadu_pd (mat->data + i);
         __m256d neg = _mm256_sub_pd (zero, temp);
