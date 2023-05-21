@@ -178,9 +178,19 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
  */
 void fill_matrix(matrix *mat, double val) {
     // Task 1.5
+    /* naive implementation
     for (int i = 0 ; i < (mat->rows) * (mat->cols); i ++) {
         mat->data[i] = val;
     }
+    */
+   __m256d value = _mm256_set1_pd (val);
+   for (int i = 0; i < (mat->rows) * (mat->cols)/ 4 * 4; i += 4) {
+        _mm256_storeu_pd (mat->data + i, value);
+    }
+    for(unsigned int i = (mat->rows) * (mat->cols) / 4 * 4; i < (mat->rows) * (mat->cols); i++) {
+       mat->data[i] = val;
+    }
+    return 0;
 }
 
 /*
