@@ -38,7 +38,7 @@ Returns a random dumbpy matrix and a random numc matrix with the same data
 seed, low, and high are optional
 """
 def rand_dp_nc_matrix(rows, cols, low=0, high=1, seed=0):
-    return dp.Matrix(rows, cols, low=low, high=high,rand=True, seed=seed), nc.Matrix(rows, cols, low=low, high=high, rand=True, seed=seed)
+    return nc.Matrix(rows, cols, low=low, high=high,rand=True, seed=seed), nc.Matrix(rows, cols, low=low, high=high, rand=True, seed=seed)
 
 
 """
