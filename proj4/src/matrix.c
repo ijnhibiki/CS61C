@@ -183,11 +183,7 @@ void fill_matrix(matrix *mat, double val) {
 int abs_matrix(matrix *result, matrix *mat) {
     // Task 1.5 TODO
     for (int i = 0; i < (mat->cols)*(mat->rows); i ++) {
-        if (mat->data[i] > 0) {
-            result->data[i] = mat->data[i];
-        } else {
-            result->data[i] = -(mat->data[i]);
-        }
+        result->data[i * result->cols + j] = abs(mat->data[i * mat->cols + j]);
     }
     return 0;
 }
