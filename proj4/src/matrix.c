@@ -194,7 +194,7 @@ int abs_matrix(matrix *result, matrix *mat) {
     int num_elems = mat->rows * mat->cols;
     for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
-        mat_vec = _mm256_andnot_ps(zero_vec, mat_vec);
+        mat_vec = _mm256_andnot_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
