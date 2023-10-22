@@ -264,4 +264,26 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int pow_matrix(matrix *result, matrix *mat, int pow) {
     // Task 1.6 TODO
+    if (pow == 0) {
+        for (int i = 0; i < mat->rows; i ++) {
+            for (int j = 0; j < mat->cols; j ++) {
+                if (i == j) {
+                    result->data[i * mat->cols + j] = 1;
+                } else {
+                    result->data[i * mat->cols + j] = 0;
+                }
+            }
+        }
+    } else if (pow == 1) {
+        for (int i = 0; i < mat->rows; i ++) {
+            for (int j = 0; j < mat->cols; j ++) {
+                result->data[i * mat->cols + j] = mat->data[i * mat->cols + j];
+            }
+        }
+    } else {
+        for (int i = 0; i < pow; i ++) {
+            mul_matrix(result, mat, mat);
+        }
+    }
+    return 0;
 }
