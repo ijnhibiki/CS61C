@@ -81,19 +81,21 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
     if (rows < 1 || cols < 1) {
         return -1;
     }
-    if ((*mat = malloc(sizeof (mat))) == NULL) {
+    matrix *new_mat = malloc(sizeof(matrix));
+    if (new_mat == NULL) {
         return -2;
     }
-    if (((*mat)->data = malloc(sizeof(double) * rows * cols)) == NULL) {
+    if ((new_mat->data = malloc(sizeof(double) * rows * cols)) == NULL) {
         return -2;
     }
     for (int i = 0; i < rows * cols; i++) {
-        (*mat)->data[i] = 0;
+        new_mat->data[i] = 0;
     }
-    (*mat)->rows = rows;
-    (*mat)->cols = cols;
-    (*mat)->parent = NULL;
-    (*mat)->ref_cnt = 1;
+    new_mat->rows = rows;
+    new_mat->cols = cols;
+    new_mat->parent = NULL;
+    new_mat->ref_cnt = 1;
+    *mat = new_mat;
     return 0;
 
 }
