@@ -171,11 +171,10 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
 void fill_matrix(matrix *mat, double val) {
     __m256d val_vec = _mm256_set1_pd(val);
     int num_elems = mat->rows * mat->cols;
-    #pragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         _mm256_storeu_pd(mat->data + i, val_vec);
     }
-    #pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         mat->data[i] = val;
     }
@@ -200,7 +199,6 @@ int abs_matrix(matrix *result, matrix *mat) {
         mat_vec = _mm256_andnot_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
-#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = fabs(mat->data[i]);
     }
@@ -226,7 +224,6 @@ int neg_matrix(matrix *result, matrix *mat) {
         mat_vec = _mm256_sub_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
-#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = -mat->data[i];
     }
@@ -255,7 +252,6 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
         sum_vec = _mm256_add_pd(num1_vec, num2_vec);
         _mm256_storeu_pd(result->data + i, sum_vec);
     }
-#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = mat1->data[i] + mat2->data[i];
     }
@@ -285,7 +281,6 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
         sub_vec = _mm256_sub_pd(num1_vec, num2_vec);
         _mm256_storeu_pd(result->data + i, sub_vec);
     }
-#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = mat1->data[i] - mat2->data[i];
     }
