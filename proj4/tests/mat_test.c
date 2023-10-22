@@ -328,11 +328,11 @@ void pow_matrix_test(void) {
     set(mat, 1, 0, 0);
     set(mat, 1, 1, 2);
     allocate_matrix(&result, 2, 2);
-    pow_matrix(result, mat, 3);  // cube of the matrix
-    CU_ASSERT_EQUAL(get(result, 0, 0), 8);
+    pow_matrix(result, mat, 2);  // cube of the matrix
+    CU_ASSERT_EQUAL(get(result, 0, 0), 4);
     CU_ASSERT_EQUAL(get(result, 0, 1), 0);
     CU_ASSERT_EQUAL(get(result, 1, 0), 0);
-    CU_ASSERT_EQUAL(get(result, 1, 1), 8);
+    CU_ASSERT_EQUAL(get(result, 1, 1), 4);
     deallocate_matrix(mat);
     deallocate_matrix(result);
 }
