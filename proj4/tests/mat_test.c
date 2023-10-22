@@ -283,6 +283,62 @@ void pow_test(void) {
   deallocate_matrix(mat);
 }
 
+void neg_matrix_test(void) {
+    matrix *result = NULL;
+    matrix *mat = NULL;
+    allocate_matrix(&mat, 2, 2);
+    set(mat, 0, 0, 1);
+    set(mat, 0, 1, -2);
+    set(mat, 1, 0, -3);
+    set(mat, 1, 1, 4);
+    allocate_matrix(&result, 2, 2);
+    neg_matrix(result, mat);
+    CU_ASSERT_EQUAL(get(result, 0, 0), -1);
+    CU_ASSERT_EQUAL(get(result, 0, 1), 2);
+    CU_ASSERT_EQUAL(get(result, 1, 0), 3);
+    CU_ASSERT_EQUAL(get(result, 1, 1), -4);
+    deallocate_matrix(mat);
+    deallocate_matrix(result);
+}
+
+void abs_matrix_test(void) {
+    matrix *result = NULL;
+    matrix *mat = NULL;
+    allocate_matrix(&mat, 2, 2);
+    set(mat, 0, 0, 1);
+    set(mat, 0, 1, -2);
+    set(mat, 1, 0, -3);
+    set(mat, 1, 1, 4);
+    allocate_matrix(&result, 2, 2);
+    abs_matrix(result, mat);
+    CU_ASSERT_EQUAL(get(result, 0, 0), 1);
+    CU_ASSERT_EQUAL(get(result, 0, 1), 2);
+    CU_ASSERT_EQUAL(get(result, 1, 0), 3);
+    CU_ASSERT_EQUAL(get(result, 1, 1), 4);
+    deallocate_matrix(mat);
+    deallocate_matrix(result);
+}
+
+void pow_matrix_test(void) {
+    matrix *result = NULL;
+    matrix *mat = NULL;
+    allocate_matrix(&mat, 2, 2);
+    set(mat, 0, 0, 2);
+    set(mat, 0, 1, 0);
+    set(mat, 1, 0, 0);
+    set(mat, 1, 1, 2);
+    allocate_matrix(&result, 2, 2);
+    pow_matrix(result, mat, 3);  // cube of the matrix
+    CU_ASSERT_EQUAL(get(result, 0, 0), 8);
+    CU_ASSERT_EQUAL(get(result, 0, 1), 0);
+    CU_ASSERT_EQUAL(get(result, 1, 0), 0);
+    CU_ASSERT_EQUAL(get(result, 1, 1), 8);
+    deallocate_matrix(mat);
+    deallocate_matrix(result);
+}
+
+
+
 /************* Test Runner Code goes here **************/
 
 int main (void)
@@ -318,7 +374,10 @@ int main (void)
         (CU_add_test(pSuite, "alloc_ref_success_test", alloc_ref_success_test) == NULL) ||
         (CU_add_test(pSuite, "dealloc_null_test", dealloc_null_test) == NULL) ||
         (CU_add_test(pSuite, "get_test", get_test) == NULL) ||
-        (CU_add_test(pSuite, "set_test", set_test) == NULL)
+        (CU_add_test(pSuite, "set_test", set_test) == NULL) ||
+        (CU_add_test(pSuite, "test of neg_matrix()", neg_matrix_test) == NULL) ||
+        (CU_add_test(pSuite, "test of abs_matrix()", abs_matrix_test) == NULL) ||
+        (CU_add_test(pSuite, "test of pow_matrix()", pow_matrix_test) == NULL)
      )
    {
       CU_cleanup_registry();
