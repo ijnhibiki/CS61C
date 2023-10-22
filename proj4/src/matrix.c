@@ -354,31 +354,21 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
 int pow_matrix(matrix *result, matrix *mat, int pow) {
     // Task 1.6 TODO
     if (pow == 0) {
+#pragma omp parallel for
         for (int i = 0; i < mat->rows; i++) {
             for (int j = 0; j < mat->cols; j++) {
-                if (i == j) {
-                    result->data[i * mat->cols + j] = 1;
-                } else {
-                    result->data[i * mat->cols + j] = 0;
-                }
+                result->data[i * result->cols +j] = (i == j ? 1 : 0);
             }
         }
     }
-    if (pow == 1) {
-        for (int i = 0; i < mat->rows; i++) {
-            for (int j = 0; j < mat->cols; j++) {
-                result->data[i * mat->cols + j] = mat->data[i * mat->cols + j];
-            }
-        }
-    } else {
-        for (int i = 0; i < pow - 1; i++) {
-            if (i == 0) {
-                mul_matrix(result, mat, mat);
-            } else {
-                mul_matrix(result, mat, result);
-            }
-        }
-
+    else if (pow % 2 == 0) {
+        pow_matrix(result, mat, pow / 2);
+        mul_matrix(result, result, result);
+    }
+    else {
+        pow_matrix(result, mat, (pow - 1) / 2);
+        mul_matrix(result, result, result);
+        mul_matrix(result, result, mat);
     }
     return 0;
 }
