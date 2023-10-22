@@ -282,7 +282,11 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
         }
     } else {
         for (int i = 0; i < pow - 1; i ++) {
-            mul_matrix(result, mat, mat);
+            if (i == 0) {
+                mul_matrix(result, mat, mat);
+            } else {
+                mul_matrix(result, result, mat);
+            }
         }
     }
     return 0;
