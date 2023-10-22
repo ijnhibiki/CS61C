@@ -240,7 +240,7 @@ int neg_matrix(matrix *result, matrix *mat) {
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     __m256d num1_vec, num2_vec, sum_vec;
     int num_elems = mat1->rows * mat1->cols;
-    for (int i = 0; i < num_elems; i++) {
+    for (int i = 0; i < num_elems; i+= 4) {
         num1_vec = _mm256_loadu_pd(mat1->data + i);
         num2_vec = _mm256_loadu_pd(mat2->data + i);
         sum_vec = _mm256_add_pd(num1_vec, num2_vec);
