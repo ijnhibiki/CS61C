@@ -106,7 +106,6 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
  * matrix has no other references (including itself).
  */
 void deallocate_matrix(matrix *mat) {
-    // Task 1.3 TODO
     // HINTS: Follow these steps.
     // 1. If the matrix pointer `mat` is NULL, return.
     // 2. If `mat` has no parent: decrement its `ref_cnt` field by 1. If the `ref_cnt` field becomes 0, then free `mat` and its `data` field.
@@ -171,7 +170,7 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
  */
 void fill_matrix(matrix *mat, double val) {
     // Task 1.5 TODO
-    for (int i = 0; i < (mat->cols)* (mat->rows); i ++) {
+    for (int i = 0; i < (mat->cols)*(mat->rows); i ++) {
         mat->data[i] = val;
     }
 }
@@ -183,6 +182,10 @@ void fill_matrix(matrix *mat, double val) {
  */
 int abs_matrix(matrix *result, matrix *mat) {
     // Task 1.5 TODO
+    for (int i = 0; i < (mat->cols)*(mat->rows); i ++) {
+        result->data[i] = mat->data[i];
+    }
+    return 0;
 }
 
 /*
