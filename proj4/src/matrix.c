@@ -200,6 +200,10 @@ int abs_matrix(matrix *result, matrix *mat) {
  */
 int neg_matrix(matrix *result, matrix *mat) {
     // Task 1.5 TODO
+    for (int i = 0; i < (mat->cols)*(mat->rows); i ++) {
+        result->data[i] = -(mat->data[i]);
+    }
+    return 0;
 }
 
 /*
