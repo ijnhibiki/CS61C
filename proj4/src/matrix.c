@@ -301,26 +301,47 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
 int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     // Task 1.6 TODO
     //Transpose mat2
-//    double *transposed_mat2 = malloc(sizeof(double) * (long unsigned int)(mat2->rows) * (long unsigned int)(mat2->cols));
-//    for (int i = 0; i < mat2->rows; i++) {
-//        for (int j = 0; j < mat2->cols; j++) {
-//            transposed_mat2[j * mat2->rows + i] = mat2->data[i * mat2->cols + j];
-//        }
-//    }
-//    //SIMD
-
-
-    double *new_data = malloc(sizeof(double) * (long unsigned int)(mat1->rows) * (long unsigned int)(mat2->cols));
-    for (int i = 0; i < mat1->rows; i++) {
-        for (int j = 0; j < mat2->cols; j ++) {
-            new_data[i * mat2->cols + j] = 0;
-           for (int k = 0; k < mat1->cols; k++) {
-               new_data[i * mat2->cols + j] += mat1->data[i * mat1->cols + k] * mat2->data[j + k * mat2->cols];
-           }
+    double *transposed_mat2 = malloc(sizeof(double) * (long unsigned int)(mat2->rows) * (long unsigned int)(mat2->cols));
+    for (int i = 0; i < mat2->rows; i++) {
+        for (int j = 0; j < mat2->cols; j++) {
+            transposed_mat2[j * mat2->rows + i] = mat2->data[i * mat2->cols + j];
         }
     }
-    result->data = new_data;
+    //SIMD
+    int vector_length = mat1->cols;
+#paragma omp parallel for
+    for (int i = 0; i < mat1->rows; i++) {
+        for (int j = 0; j < mat2->cols; j++) {
+            __m256d sum_vec = _mm256_setzero_pd(); // initialize a vector with zeros
+            for (int k = 0; k < vector_length/4 * 4; k+=4) {
+                __m256d mat1_vec = _mm256_loadu_pd(&mat1->data[i * mat1->cols + k]);
+                __m256d mat2_vec = _mm256_loadu_pd(&transposed_mat2[j * mat2->rows + k]);
+                sum_vec = _mm256_fmadd_pd(mat1_vec, mat2_vec, sum_vec);
+            }
+            double sum_array[4];
+            _mm256_storeu_pd(sum_array, sum_vec);
+            result->data[i * mat2->cols + j] = sum_array[0] + sum_array[1] + sum_array[2] + sum_array[3];
+            for (int k = vector_length / 4 * 4; k < vector_length; k++) {
+                result->data[i * result->cols + j] += mat1->data[i * mat1->cols + k] * transport_mat2[j * mat2->rows + k];
+            }
+        }
+    }
+
+    free(transposed_mat2);
     return 0;
+
+
+//    double *new_data = malloc(sizeof(double) * (long unsigned int)(mat1->rows) * (long unsigned int)(mat2->cols));
+//    for (int i = 0; i < mat1->rows; i++) {
+//        for (int j = 0; j < mat2->cols; j ++) {
+//            new_data[i * mat2->cols + j] = 0;
+//           for (int k = 0; k < mat1->cols; k++) {
+//               new_data[i * mat2->cols + j] += mat1->data[i * mat1->cols + k] * mat2->data[j + k * mat2->cols];
+//           }
+//        }
+//    }
+//    result->data = new_data;
+//    return 0;
 }
 
 /*
