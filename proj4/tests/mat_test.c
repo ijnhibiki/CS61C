@@ -225,7 +225,7 @@ void mul_square_test(void) {
   CU_ASSERT_EQUAL(get(result, 2, 2), 150);
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            printf("%lf\n", get(result, i, j))
+            printf("%lf\n", get(result, i, j));
         }
     }
   deallocate_matrix(result);
