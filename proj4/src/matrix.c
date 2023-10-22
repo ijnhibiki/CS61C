@@ -147,6 +147,20 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
     // 6. Increment the `ref_cnt` field of the `from` struct by 1.
     // 7. Store the address of the allocated matrix struct at the location `mat` is pointing at.
     // 8. Return 0 upon success.
+    if (rows < 1 || cols < 1) {
+        return -1;
+    }
+
+    if ((*mat = malloc(sizeof **mat)) == NULL) {
+        return -2;
+    }
+
+    (*mat)->data = from->data + offset;
+    (*mat)->rows = rows;
+    (*mat)->cols = cols;
+    (*mat)->parent = from;
+    from->ref_cnt += 1;
+    return 0;
 
 }
 
