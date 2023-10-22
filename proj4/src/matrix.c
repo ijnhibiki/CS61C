@@ -214,11 +214,11 @@ int abs_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int neg_matrix(matrix *result, matrix *mat) {
-    __m256d zero_vec = _mm256_set1_ps(-0.f);
+    __m256d zero_vec = _mm256_set1_ps(-0.0);
     int num_elems = mat->rows * mat->cols;
     for (unsigned int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
-        mat_vec = _mm256_sub_pd(zero_vec, vec);
+        mat_vec = _mm256_sub_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
     for (unsigned int i = num_elems / 4 * 4; i < num_elems; i++) {
@@ -249,7 +249,7 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     for (unsigned int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = mat1->data[i] + mat2->data[i];
     }
-    
+
     // Task 1.5 TODO
 //    for (int i = 0; i < (mat1->cols)*(mat1->rows); i ++) {
 //        result->data[i] = mat1->data[i] + mat2->data[i];
