@@ -248,7 +248,7 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
         for (int j = 0; j < mat2->cols; j ++) {
             result->data[i * mat2->cols + j] = 0;
            for (int k = 0; k < mat1->cols; k++) {
-               result->data[i][j] += mat1->data[i][k] * mat2->data[k][j];
+               result->data[i * mat2->cols + j] += mat1->data[i*mat1->cols + k] * mat2->data[j + k*mat2->cols];
            }
         }
     }
