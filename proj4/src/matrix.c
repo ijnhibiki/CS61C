@@ -309,7 +309,7 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     }
     //SIMD
     int vector_length = mat1->cols;
-#paragma omp parallel for
+#pragma omp parallel for
     for (int i = 0; i < mat1->rows; i++) {
         for (int j = 0; j < mat2->cols; j++) {
             __m256d sum_vec = _mm256_setzero_pd(); // initialize a vector with zeros
