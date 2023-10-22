@@ -171,9 +171,11 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
 void fill_matrix(matrix *mat, double val) {
     __m256d val_vec = _mm256_set1_pd(val);
     int num_elems = mat->rows * mat->cols;
+    #pragma omp parallel for
     for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         _mm256_storeu_pd(mat->data + i, val_vec);
     }
+    #pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         mat->data[i] = val;
     }
@@ -192,11 +194,13 @@ void fill_matrix(matrix *mat, double val) {
 int abs_matrix(matrix *result, matrix *mat) {
     __m256d zero_vec = _mm256_set1_pd(-0.0);
     int num_elems = mat->rows * mat->cols;
+#pragma omp parallel for
     for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
         mat_vec = _mm256_andnot_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
+#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = fabs(mat->data[i]);
     }
@@ -216,11 +220,13 @@ int abs_matrix(matrix *result, matrix *mat) {
 int neg_matrix(matrix *result, matrix *mat) {
     __m256d zero_vec = _mm256_set1_pd(-0.0);
     int num_elems = mat->rows * mat->cols;
+#pragma omp parallel for
     for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
         mat_vec = _mm256_sub_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
+#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = -mat->data[i];
     }
@@ -238,19 +244,23 @@ int neg_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
+
+    /*SIMD*/
     __m256d num1_vec, num2_vec, sum_vec;
     int num_elems = mat1->rows * mat1->cols;
+#pragma omp parallel for
     for (int i = 0; i < num_elems; i+= 4) {
         num1_vec = _mm256_loadu_pd(mat1->data + i);
         num2_vec = _mm256_loadu_pd(mat2->data + i);
         sum_vec = _mm256_add_pd(num1_vec, num2_vec);
         _mm256_storeu_pd(result->data + i, sum_vec);
     }
+#pragma omp parallel for
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = mat1->data[i] + mat2->data[i];
     }
 
-    // Task 1.5 TODO
+    /*naive*/
 //    for (int i = 0; i < (mat1->cols)*(mat1->rows); i ++) {
 //        result->data[i] = mat1->data[i] + mat2->data[i];
 //    }
@@ -266,10 +276,24 @@ int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     // Task 1.5 TODO
-    for (int i = 0; i < (mat1->cols)*(mat1->rows); i ++) {
+    __m256d num1_vec, num2_vec, sub_vec;
+    int num_elems = mat1->rows * mat1->cols;
+#pragma omp parallel for
+    for (int i = 0; i < num_elems; i+= 4) {
+        num1_vec = _mm256_loadu_pd(mat1->data + i);
+        num2_vec = _mm256_loadu_pd(mat2->data + i);
+        sub_vec = _mm256_sub_pd(num1_vec, num2_vec);
+        _mm256_storeu_pd(result->data + i, sub_vec);
+    }
+#pragma omp parallel for
+    for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = mat1->data[i] - mat2->data[i];
     }
     return 0;
+//    for (int i = 0; i < (mat1->cols)*(mat1->rows); i ++) {
+//        result->data[i] = mat1->data[i] - mat2->data[i];
+//    }
+//    return 0;
 }
 
 /*
@@ -281,6 +305,16 @@ int sub_matrix(matrix *result, matrix *mat1, matrix *mat2) {
  */
 int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     // Task 1.6 TODO
+    //Transpose mat2
+//    double *transposed_mat2 = malloc(sizeof(double) * (long unsigned int)(mat2->rows) * (long unsigned int)(mat2->cols));
+//    for (int i = 0; i < mat2->rows; i++) {
+//        for (int j = 0; j < mat2->cols; j++) {
+//            transposed_mat2[j * mat2->rows + i] = mat2->data[i * mat2->cols + j];
+//        }
+//    }
+//    //SIMD
+
+
     double *new_data = malloc(sizeof(double) * (long unsigned int)(mat1->rows) * (long unsigned int)(mat2->cols));
     for (int i = 0; i < mat1->rows; i++) {
         for (int j = 0; j < mat2->cols; j ++) {
