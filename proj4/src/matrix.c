@@ -81,7 +81,7 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
     if (rows < 1 || cols < 1) {
         return -1;
     }
-    if ((*mat = malloc(sizeof(mat))) == NULL) {
+    if ((*mat = malloc(sizeof (mat))) == NULL) {
         return -2;
     }
     if (((*mat)->data = malloc(sizeof(double) * rows * cols)) == NULL) {
