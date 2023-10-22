@@ -333,6 +333,11 @@ void pow_matrix_test(void) {
     CU_ASSERT_EQUAL(get(result, 0, 1), 0);
     CU_ASSERT_EQUAL(get(result, 1, 0), 0);
     CU_ASSERT_EQUAL(get(result, 1, 1), 8);
+    for (int i = 0; i < 2; i++) {  // check that the original matrix is unchanged
+        for (int j = 0; j < 2; j++) {
+            printf("%f\n", get(mat, i, j));
+        }
+    }
     deallocate_matrix(mat);
     deallocate_matrix(result);
 }
