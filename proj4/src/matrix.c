@@ -190,11 +190,11 @@ void fill_matrix(matrix *mat, double val) {
  * Note that the matrix is in row-major order.
  */
 int abs_matrix(matrix *result, matrix *mat) {
-    __m256d zero_vec = _mm256_set1_ps(-0.f);
+    __m256d zero_vec = _mm256_set1_pd(-0.0);
     int num_elems = mat->rows * mat->cols;
     for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
-        mat_vec = _mm256_andnot_ps(zero_vec, vec);
+        mat_vec = _mm256_andnot_ps(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
     for (int i = num_elems / 4 * 4; i < num_elems; i++) {
