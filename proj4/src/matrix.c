@@ -274,13 +274,15 @@ int pow_matrix(matrix *result, matrix *mat, int pow) {
                 }
             }
         }
-    } else if (pow == 1) {
+    }
+    if (pow == 1) {
         for (int i = 0; i < mat->rows; i ++) {
             for (int j = 0; j < mat->cols; j ++) {
                 result->data[i * mat->cols + j] = mat->data[i * mat->cols + j];
             }
         }
-    } else {
+    }
+    if (pow > 1) {
         for (int i = 0; i < pow - 1; i ++) {
             if (i == 0) {
                 mul_matrix(result, mat, mat);
