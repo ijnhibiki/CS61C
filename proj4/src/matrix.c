@@ -322,7 +322,7 @@ int mul_matrix(matrix *result, matrix *mat1, matrix *mat2) {
             _mm256_storeu_pd(sum_array, sum_vec);
             result->data[i * mat2->cols + j] = sum_array[0] + sum_array[1] + sum_array[2] + sum_array[3];
             for (int k = vector_length / 4 * 4; k < vector_length; k++) {
-                result->data[i * result->cols + j] += mat1->data[i * mat1->cols + k] * transport_mat2[j * mat2->rows + k];
+                result->data[i * result->cols + j] += mat1->data[i * mat1->cols + k] * transposed_mat2[j * mat2->rows + k];
             }
         }
     }
