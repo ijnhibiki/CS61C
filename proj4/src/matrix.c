@@ -81,7 +81,7 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
     if (rows < 1 || cols < 1) {
         return -1;
     }
-    if ((*mat = malloc(sizeof **mat)) == NULL) {
+    if ((*mat = malloc(sizeof(mat)) == NULL) {
         return -2;
     }
     if (((*mat)->data = malloc(sizeof(double) * rows * cols)) == NULL) {
@@ -169,6 +169,9 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
  */
 void fill_matrix(matrix *mat, double val) {
     // Task 1.5 TODO
+    for (int i = 0; i < (mat->cols)* (mat->rows); i ++) {
+        mat->data[i] = val;
+    }
 }
 
 /*
