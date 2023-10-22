@@ -171,10 +171,10 @@ int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int co
 void fill_matrix(matrix *mat, double val) {
     __m256d val_vec = _mm256_set1_pd(val);
     int num_elems = mat->rows * mat->cols;
-    for (unsigned int i = 0; i < num_elems / 4 * 4; i += 4) {
+    for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         _mm256_storeu_pd(mat->data + i, val_vec);
     }
-    for (unsigned int i = num_elems / 4 * 4; i < num_elems; i++) {
+    for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         mat->data[i] = val;
     }
 
@@ -192,12 +192,12 @@ void fill_matrix(matrix *mat, double val) {
 int abs_matrix(matrix *result, matrix *mat) {
     __m256d zero_vec = _mm256_set1_ps(-0.f);
     int num_elems = mat->rows * mat->cols;
-    for (unsigned int i = 0; i < num_elems / 4 * 4; i += 4) {
+    for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
         mat_vec = _mm256_andnot_ps(zero_vec, vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
-    for (unsigned int i = num_elems / 4 * 4; i < num_elems; i++) {
+    for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = fabs(mat->data[i]);
     }
     // Task 1.5 TODO
@@ -214,14 +214,14 @@ int abs_matrix(matrix *result, matrix *mat) {
  * Note that the matrix is in row-major order.
  */
 int neg_matrix(matrix *result, matrix *mat) {
-    __m256d zero_vec = _mm256_set1_ps(-0.0);
+    __m256d zero_vec = _mm256_set1_ps(-0.f);
     int num_elems = mat->rows * mat->cols;
-    for (unsigned int i = 0; i < num_elems / 4 * 4; i += 4) {
+    for (int i = 0; i < num_elems / 4 * 4; i += 4) {
         __m256d mat_vec = _mm256_loadu_pd(mat->data + i);
         mat_vec = _mm256_sub_pd(zero_vec, mat_vec);
         _mm256_storeu_pd(result->data + i, mat_vec);
     }
-    for (unsigned int i = num_elems / 4 * 4; i < num_elems; i++) {
+    for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = -mat->data[i];
     }
     // Task 1.5 TODO
@@ -240,13 +240,13 @@ int neg_matrix(matrix *result, matrix *mat) {
 int add_matrix(matrix *result, matrix *mat1, matrix *mat2) {
     __m256d num1_vec, num2_vec, sum_vec;
     int num_elems = mat1->rows * mat1->cols;
-    for (unsigned int i = 0; i < num_elems; i++) {
+    for (int i = 0; i < num_elems; i++) {
         num1_vec = _mm256_loadu_pd(mat1->data + i);
         num2_vec = _mm256_loadu_pd(mat2->data + i);
         sum_vec = _mm256_add_pd(num1_vec, num2_vec);
         _mm256_storeu_pd(result->data + i, sum_vec);
     }
-    for (unsigned int i = num_elems / 4 * 4; i < num_elems; i++) {
+    for (int i = num_elems / 4 * 4; i < num_elems; i++) {
         result->data[i] = mat1->data[i] + mat2->data[i];
     }
 
